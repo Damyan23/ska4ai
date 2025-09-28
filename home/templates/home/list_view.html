@@ -17,7 +17,7 @@
                     
                     <div class="list-view-wrapper" data-date="{{challenge.date|date:'c'}}" data-points="{% if challenge.challenge_type == 'CH' %}{{challenge.points}}{% else %}1{% endif %}">
                         <div class="list-view-challenge-container" id="list-view-challenge-{{challenge.id}}"
-                        hx-trigger="intersect once click delay:0.1s"
+                        hx-trigger="revealed"
                         hx-get="{% url 'challenges:challenge_simple_info' challenge_type=challenge.challenge_type challenge_id=challenge.id  %}"
                         hx-swap="innerHTML"
                         >
@@ -94,4 +94,15 @@
         // Re-append sorted items
         items.forEach(item => container.appendChild(item));
     }
+
+    // fix for thumbnails not showing on IOS and poster breaking videos on Chrome
+    // poster was a fix for the thumbnails on IOS... but broke Chrome
+    document.body.addEventListener("htmx:afterSwap", function(evt) {
+        evt.target.querySelectorAll("video").forEach(v => {
+            if (!v.poster) {
+                v.poster = v.getAttribute("data-poster"); // custom attribute
+                v.load();
+            }
+        });
+    });
 </script>

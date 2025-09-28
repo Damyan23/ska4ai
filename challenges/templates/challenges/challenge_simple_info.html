@@ -25,7 +25,7 @@
                             webkit-playsinline
                             muted
                             loop
-                            poster="{{ visual.processed_url|cut:'.mp4' }}.jpg"
+                            data-poster="{{ visual.processed_url|slice:':-4' }}.jpg"
                             onclick="playPause(this)">
                             <source src="{{ visual.processed_url }}" type="video/mp4">
                             <source src="{{ visual.file.url }}" type="video/mp4">
