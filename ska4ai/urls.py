@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('set_language/', set_language, name='set_language'),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('api/', include('api.urls')),  # API endpoints
 ]
 
 urlpatterns += i18n_patterns(

@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'submissions.apps.SubmissionsConfig',
     'userinteraction.apps.UserinteractionConfig',
     'visualprocessing.apps.VisualprocessingConfig',
+    # API
+    'rest_framework',
+    'api.apps.ApiConfig',
     # django-allauth
     'django.contrib.sites',
     'allauth',
