@@ -1,0 +1,494 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Ska4ai{% endblock %}
+
+{% block content %}
+
+<div id="top-popup" class="popup">
+    <button class="close-button stylish-button" onclick="closePopup()"><div>{% include "images/close-square-svgrepo-com.svg" %}</div></button>
+    <div id="top-popup-content"  class="popup-html-content">...</div>
+</div>
+<div id="event-popup"  class="popup">
+    <button class="close-button stylish-button" onclick="closePopup()"><div>{% include "images/close-square-svgrepo-com.svg" %}</div></button>
+        {% for event in active_event_list  %}
+            <div class="event-item" 
+                id="event-{{ event.id }}"
+                data-event-id="{{ event.id }}"
+                data-event-active="True"
+            >
+            {{ event.name }}
+            </div>
+        {% endfor%}
+        {% if archived_events %}
+            <div class="event-category-label">{% translate "Old events:" %}</div>
+            {% for event in archived_events  %}
+                <div class="event-item old-event-item"
+                    id="event-{{ event.id }}"
+                    data-event-id="{{ event.id }}"
+                    data-event-active=""
+                >
+                {{ event.name }}
+                </div>
+            {% endfor%}
+        {% endif %}
+</div>
+<div id="leaderboard-popup" class="popup">
+    <button class="close-button stylish-button" onclick="closePopup()"><div>{% include "images/close-square-svgrepo-com.svg" %}</div></button>
+    <div id="leaderboard-popup-content" class="popup-html-content">{% translate "Leaderboard" %}</div>
+</div>
+
+
+<div class="">
+<div class="main-view-wrapper"  data-json='{{ json_data.challenge_list|safe }}'>
+    <div id="active-event" class="index-view">
+        {% for event in active_event_list  %}
+            <div id="active-event-{{ event.id }}"  class="event-buttons-wrapper">
+                <button id="event-info-{{ event.id }}" class="event-info-button clickable-size-highlight" onclick="showEventInfo({{ event.id }})" >
+                    i
+                </button>
+                <div class="active-event-item clickable-size-small-highlight" onClick="fetchLeaderboard({{ event.id }})">
+                {{ event.name }}
+                </div>
+            </div>
+        {% endfor%}
+        {% if archived_events %}
+            <div class="event-category-label event-buttons-wrapper">{% translate "Old events:" %}</div>
+            {% for event in archived_events %}
+                <div id="active-event-{{ event.id }}"  class="event-buttons-wrapper">
+                    <button id="event-info-{{ event.id }}" class="event-info-button" onclick="showEventInfo({{ event.id }})" >
+                        i
+                    </button>
+                    <div class="active-event-item" onClick="fetchLeaderboard({{ event.id }})">
+                    {{ event.name }}
+                    </div>
+                </div>
+            {% endfor%}
+        {% endif %}
+            <button id="choose-event" class="clickable-size-highlight" onclick="showEvents()">
+                <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="15" 
+                height="15" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                class="dropdown-icon"
+            >
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+
+        </button>
+        <div id="leaderboard-popup-content-bigscreen">{% translate "Leaderboard" %}</div>
+    </div>
+
+    <div class="map_container mobile-view index-view" id="map-container" style="">
+        <div id="map"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'></div>
+        <button id="map-style-button" class="map-style-button" id="new-challenge">{% include "images/street-map-svgrepo-com.svg" %}</button>
+        {% if user.is_authenticated %}
+            <button class="floating-button clickable-highlight" id="new-challenge" onclick="newChallenge(this)">+</button>
+        {% endif %}
+    </div>
+
+    <div class="list-view-container mobile-view index-view" id="list-view-container">
+        {% include './list_view.html' with event_list=event_list all_challenges=all_challenges %}
+    </div>
+
+    {% if perms.auth.can_view_moderation_panel and moderation_list %}
+        <div class="list-view-container mobile-view index-view" id="list-view-container-moderation">
+            {% include './moderation_challenge_view.html' with event_list=event_list moderation_list=moderation_list %}
+        </div>
+    {% endif %}
+
+</div>
+</div>
+<div id="view-switcher">
+    <div id="map-switcher" class="clickable-highlight"  onclick="switchMap()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 3, 10 1, 15 4, 21 3, 21 21, 15 19, 10 22, 3 21, 3 3"></polygon>
+            <line x1="10" y1="22" x2="10" y2="4"></line>
+            <line x1="15" y1="4" x2="15" y2="19"></line>
+          </svg>
+          
+    </div>
+    <div id="list-switcher" class="clickable-highlight"  onclick="switchList()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="6" width="15" height="2" rx="1" ry="1"></rect>
+            <rect x="5" y="12" width="15" height="2" rx="1" ry="1"></rect>
+            <rect x="5" y="18" width="15" height="2" rx="1" ry="1"></rect>
+          </svg>          
+    </div>
+    {% if perms.auth.can_view_moderation_panel and moderation_list %}
+        <div id="mod-switcher" class="clickable-highlight"  onclick="switchMod()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M6 18v-1a6 6 0 0 1 12 0v1"></path>
+                <path d="M17 16h3v4h-3z"></path>
+              </svg>              
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block css %}
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "ska4ai/css/mapbox.css" %}?{{ timestamp }}" />
+
+    <style >
+        body {
+            position: fixed;
+        }
+
+        #view-switcher {
+            display: none;
+        }
+
+        .list-view-container {
+            display: flex;
+            flex-direction: column;
+            {% comment %} padding-top: 5svh; {% endcomment %}
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 30svw;
+            {% if perms.auth.can_view_moderation_panel %}
+                {% if moderation_list %}
+                    max-width: 20svw;
+                {% endif %}
+            {% endif %}
+        }
+        {% comment %} .list-view-container > div {
+            text-align: center;
+            margin: 2px;
+        }  {% endcomment %}
+
+
+        @media (max-width: 800px) {
+            #view-switcher {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                position: fixed;
+                bottom: 10px;
+                color: #fff;
+                border: none;
+                font-size: 1rem;
+                width: 100svw;
+                z-index: 5;
+            }
+
+            #view-switcher div {
+                background-color: #007bff;
+                padding: 0.5rem;
+                border-radius: 50px;
+                margin: 0.5rem;
+                cursor: pointer;
+            }
+            
+            #view-switcher svg {
+                display: flex;
+            }
+
+            #list-view-container, #list-view-container-moderation {
+                display: none;
+                width: 100% !important;
+                transition: all 0.3s ease;
+                padding: 0rem;
+                max-height: 90svh;
+                max-width: 100svw;
+                height: 100%;
+                
+            }
+        }
+    </style>
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script>
+const bigScreen = window.matchMedia('(min-width: 800px)');
+
+function switchView() {
+    var map_view = document.getElementById('map-container');
+    var list_view = document.getElementById('list-view-container');
+
+    if (map_view.style.display == 'none') {
+        map_view.style.display = 'flex';
+        //map_view.resize();
+        list_view.style.display = 'none';
+    }
+    else {
+        map_view.style.display = 'none';
+        list_view.style.display = 'flex';
+    }
+};
+
+function switchMap() {
+    document.getElementById('map-container').style.display = 'flex';
+    document.getElementById('list-view-container').style.display = 'none';
+    document.getElementById('list-view-container-moderation').style.display = 'none';
+};
+
+function switchList() {
+    document.getElementById('map-container').style.display = 'none';
+    document.getElementById('list-view-container').style.display = 'flex';
+    document.getElementById('list-view-container-moderation').style.display = 'none';
+};
+
+function switchMod() {
+    document.getElementById('map-container').style.display = 'none';
+    document.getElementById('list-view-container').style.display = 'none';
+    document.getElementById('list-view-container-moderation').style.display = 'flex';
+};
+
+
+function newChallenge(button) {
+    if (button.getAttribute("data-event-active")) {
+        var event = button.getAttribute("data-event");
+        const base_link = "{% url 'challenges:create_challenge' 12345 %}".replace(/12345/, event.toString());
+        window.location.href = base_link;
+    }
+};
+
+
+// Function to fetch content using HTMX manually
+function fetchPopupContent(challenge_type, challengeId) {
+    htmx.ajax('GET', `{% url 'challenges:challenge_simple_info' challenge_type='ska4ai' challenge_id=12345 %}`.replace(/ska4ai/, challenge_type.toString()).replace(/12345/, challengeId.toString()), {
+        //target: `#popup-details-${challengeId}`,
+        target: `#top-popup-content`,
+        swap: 'innerHTML'
+    });
+    document.getElementById('top-popup').style.display = 'flex';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+
+function showEvents() {
+    document.getElementById('event-popup').style.display = 'flex';
+    document.getElementById('overlay').style.display = 'block';
+
+}
+
+// Function to fetch leaderboard using HTMX manually
+function fetchLeaderboard(event_id) {
+    htmx.ajax('GET', `{% url 'leaderboard' event_id=12345 %}`.replace(/12345/, event_id.toString()), {
+        target: (bigScreen.matches) ? `#leaderboard-popup-content-bigscreen` : `#leaderboard-popup-content`,
+        swap: 'innerHTML'
+    });
+    if (bigScreen.matches) {
+        $ ("#event-" + event_id).click();
+    }
+    else {
+        document.getElementById('leaderboard-popup').style.display = 'flex';
+        document.getElementById('overlay').style.display = 'block';
+    };
+
+}
+
+function showEventInfo(event_id) {
+    htmx.ajax('GET', `{% url 'event_info' event_id=12345 %}`.replace(/12345/, event_id.toString()), {
+        target: `#leaderboard-popup-content`,
+        swap: 'innerHTML'
+    });
+    document.getElementById('leaderboard-popup').style.display = 'flex';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+
+$ (document).ready(function(){
+    // Create a media condition that targets viewports at least 768px wide
+    
+    //console.log("Doc is ready, loading map...")
+    if (!bigScreen.matches) {
+        document.getElementById('leaderboard-popup-content-bigscreen').style.display = 'none';
+    };
+    
+    $ (".event-item").on("click", function() {
+        const selected_event = $ (this).attr("data-event-id");
+        const event_state = $ (this).attr("data-event-active");
+        // add data-event to new challenge button
+        const new_challenge_button = document.getElementById('new-challenge');
+        if (new_challenge_button ) {
+            new_challenge_button.setAttribute("data-event", selected_event);
+            new_challenge_button.setAttribute("data-event-active", event_state);
+            // hide new challenge button if event is not active
+            new_challenge_button.style.display = event_state? 'block' : 'none';
+        }
+
+        // list view logic
+        $ (".challenges-container").hide();
+        if (!bigScreen.matches) {
+            $ (".event-buttons-wrapper").hide();
+
+        };
+        $ ("#active-event-" + selected_event).show();
+        $ ('.ev-chs-' + selected_event).show()
+        $ ('.ev-mod-chs-' + selected_event).show()
+        $ ('#new-challenge-link').attr('href', `{% url 'challenges:create_challenge' 12345 %}`.replace(/12345/, selected_event.toString()))
+        //map view markers
+        $ (".mapboxgl-marker").hide();
+        $ (".marker-event-" + selected_event).show();
+        if (!bigScreen.matches) {
+            closePopup();
+        };
+    });
+    $ (".event-item").eq(0).click();
+    $ (".active-event-item").eq(0).click();
+    closePopup();
+
+    const mapStyleSatellite = 'mapbox://styles/rimogardino/cmefkkcmb00ip01sdgpo26anq';
+    const mapStyleStandard = 'mapbox://styles/mapbox/standard';
+
+    mapboxgl.accessToken = '{{ mapbox_api_key }}';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: mapStyleSatellite,
+        center: [23.321869, 42.997085], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        //an array of numbers in [west, south, east, north] order.
+        maxBounds: [23.2, 42.6, 23.45, 42.75],
+        zoom: 10, // starting zoom
+        antialias: false, // Disable antialiasing for performance
+    });
+    console.log(map);
+
+    var mapStyleToggle = false;
+    function toggleMapStyle() {
+        if (mapStyleToggle) {
+            map.setStyle(mapStyleSatellite);
+            mapStyleToggle = false;
+        } else {
+            map.setStyle(mapStyleStandard);
+            mapStyleToggle = true;
+        }
+        
+    }
+    const mapStyleButton = document.getElementById("map-style-button");
+    mapStyleButton.addEventListener("click", toggleMapStyle);
+
+    map.on('load', () => {
+        //Remove exess landmark and icons
+        map.on('style.load', () => {
+            map.setConfigProperty('basemap', 'showPointOfInterestLabels', false);
+        });
+
+        // Show user location on map button
+        const gps_button = map.addControl(new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true,
+            showUserHeading: true
+        }));
+
+
+        // var json_data = document.getElementById('main-div').getAttribute('data-json');
+        // const geojson = JSON.parse(json_data);
+        // console.log(geojson);
+        const geojson = JSON.parse('{{ json_data.challenge_list|safe }}');
+
+
+        for (const feature of geojson) {
+            const popupContent = `
+                <div class="popup-content">
+                    <div id="popup-details-${feature.properties.challenge_id}">
+                        Loading...
+                    </div>
+                </div>
+            `;
+
+
+
+            const ch_popup = new mapboxgl.Popup({ 
+                offset: 25,
+                closeOnClick: true
+            }).setHTML(popupContent);
+        
+            // make a marker for each feature and add to the map
+            const marker = new mapboxgl.Marker({
+                className: `marker-event-${feature.properties.event}`,
+                //color: "#FFFFFF",
+                draggable: false,
+            }).setLngLat(feature.geometry.coordinates)
+            .addTo(map);
+            marker.getElement().addEventListener('click', () => {
+                // Small delay to ensure popup is rendered
+                setTimeout(() => {
+                    fetchPopupContent(feature.properties.challenge_type, feature.properties.challenge_id);
+                }, 50);
+            });
+        }
+
+        const mapContainerEl = document.getElementById('map');
+        mapContainerEl.style.visibility = 'visible';
+
+        $ (".event-item").eq(0).click();
+        // Ensure map resizes properly
+        map.on('load', () => {
+            map.resize();
+        });
+    });
+
+}); 
+
+// in base.js this doesn't load on IOS..
+function cleanContentChallengeDiv(asyncContentDivId) {
+    document.getElementById(asyncContentDivId).innerHTML = '';
+}
+
+function likeSvg(event, heartId) {
+    // If you are clicking too fast it can mess up, that's why the timeout is here
+    setTimeout(() => document.getElementById(heartId).classList.toggle('liked-challenge'), 75);
+    event.stopPropagation(); // Stop the click from propagating
+}
+
+// Load thumbnails on IOS
+function loadIOSthubmnails(videoId) {
+    let video = document.getElementById(videoId);
+    if (video) {
+        video.load()
+    }
+}
+
+// Try to scoll the undo button into view after an htmx swap
+document.addEventListener("htmx:afterSwap", (event) => {
+    // Check if the replaced element is a list-view-challenge-container
+    const target = event.target;
+
+    if (target.classList.contains("list-view-challenge-container") && target.querySelector('.undo') ) {
+        const wrapper = target.closest(".list-view-wrapper");
+        const scrollableList = target.closest(".challenges-moderation-container");
+
+        // Calculate scroll for list-view-wrapper
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const wrapperScrollOffset =
+            targetRect.top - wrapperRect.top - wrapper.clientHeight / 2 + targetRect.height / 2;
+
+        // Adjust the wrapper scroll position
+        setTimeout(() => {
+            wrapper.scrollBy({ top: wrapperScrollOffset, behavior: "smooth" });
+
+            // Ensure the scrollable-list adjusts as well
+            const listRect = scrollableList.getBoundingClientRect();
+            const wrapperOffset = wrapperRect.top - listRect.top;
+
+            if (wrapperOffset < 0 || wrapperOffset + wrapperRect.height > listRect.height) {
+                scrollableList.scrollBy({
+                    top: wrapperOffset,
+                    behavior: "smooth",
+                });
+            }
+        }, 50); // Delay to allow DOM updates
+    }
+});
+
+</script>
+{% endblock %}
+

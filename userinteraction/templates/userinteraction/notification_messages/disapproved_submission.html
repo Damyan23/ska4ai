@@ -1,9 +1,0 @@
-{% load i18n %}
-<div class="notification-item" 
-    hx-post="{% url 'userinteraction:read_notification' notification.id %}"
-    hx-trigger="click"
-    hx-swap="none"
-    data-target-url="{% url 'submissions:submission_detail' notification.parent_id %}"
->
-    <span class="notification-text">{% blocktranslate with submission_id=notification.parent_id %}Your submission {{ submission_id }} has been disapproved{% endblocktranslate %}</span>
-</div>

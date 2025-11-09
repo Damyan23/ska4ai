@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% load i18n %}
-
-{% block title %}Ska4ai{% endblock %}
-
-{% block content %}
-    {% include './submission_and_main_challnge.html' with submission=submission challenge=submission.challenge visuals=challenge_visuals likes_count=likes_count  %}
-{% endblock %}

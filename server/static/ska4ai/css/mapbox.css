@@ -1,0 +1,466 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100svh;
+    max-width: 99.5vw;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.main-view-wrapper {
+    display: flex;
+    flex: 1;
+    height: 95svh;
+}
+
+
+.main-view-wrapper .index-view {
+    padding: 0.15rem;
+}
+
+.container {
+    height: max-content;
+
+}
+
+.index-flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.index-flex-wrapper > div {
+    flex-grow: 1;
+    max-height: 95svh;
+}
+
+.side-events-container {
+    flex-grow: 1;
+}
+
+.map_container {
+    flex: 1;
+    height: 100svh;
+    width: 100%;
+    position: relative;
+}
+
+
+#map {
+  width: 100%;
+  height: 95%;
+  border-radius: 2%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+.mapboxgl-canvas {
+    /* Make it circular */
+    border-radius: 1%;
+}
+
+
+
+
+
+@media (max-width: 800px) {
+    .main-view-wrapper {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .main-view-wrapper .index-view {
+      padding: 0;
+    }
+
+    .map_container {
+      flex: 0 0 auto;
+      height: 90svh;
+      padding: 0;
+      margin: 0;
+    }
+
+    #map {
+        border-radius: 2%;
+    } 
+
+
+    .popup-content {
+        /* Positioning */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+
+        /* Size constraints */
+        max-width: 90svw;  /* Take up 90% of viewport width */
+        max-height: 90svh; /* Take up 90% of viewport height */
+        width: 100%;      /* Full width up to max-width */
+        
+        /* Handle overflow */
+        overflow-y: auto; /* Scrollable if content is too tall */
+        
+        /* Ensure it's above other content */
+        z-index: 1000;
+        
+        /* Optional: Nice padding that scales with screen */
+        padding: min(20px, 4vw);
+        
+        /* Optional: Prevent horizontal scroll */
+        overflow-x: hidden;
+
+        /* Add some spacing from edges on very small screens */
+        margin: min(32px, 4vw);
+        
+        
+        /* Add momentum scrolling on iOS */
+        -webkit-overflow-scrolling: touch;
+
+    }
+
+  }
+
+
+
+.popup-content {
+    max-height: 80svh;
+    padding: 10px;
+    min-width: 200px;
+
+}
+
+
+/* event-leaderboard button in home/index.html */
+.event-item {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  width: -moz-available;
+}
+
+.old-event-item {
+  background-color: #429dffda;
+}
+
+#active-event {
+    position: relative;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding-bottom: 0.5rem;
+    width: 18svw;
+    min-width: 18svw;
+}
+
+@media (min-width: 800px) {
+  #active-event {
+    max-width: 600px;
+  }
+}
+
+#active-event .active-event-item {
+    width: 100%;
+    padding: 0.1rem 0.5rem 0.3rem 0.5rem;
+    margin: 0.2rem;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001,
+    inset 0px 0px 0px 0px #fff9,
+    inset 0px 0px 0px 0px #0001,
+    inset 0px 0px 0px 0px #fff9,        
+    inset 0px 0px 0px 0px #0001;
+    transition:box-shadow 0.6s cubic-bezier(.79,.21,.06,.81);
+    border-radius: 10px;
+}
+
+
+#active-event .active-event-item:hover {
+    background-color: #8eb8c991;
+
+}
+
+.event-info-button {
+  max-width: 2rem;
+  max-height: 2rem;
+  align-self: center;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.4rem;
+}
+
+.event-category-label {
+  color: #666;
+  font-size: 1.1rem;
+  margin: auto;
+}
+
+#active-event button {
+    padding: 0.1rem 0.5rem 0.3rem 0.5rem;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001,
+    inset 0px 0px 0px 0px #fff9,
+    inset 0px 0px 0px 0px #0001,
+    inset 0px 0px 0px 0px #fff9,        
+    inset 0px 0px 0px 0px #0001;
+    transition:box-shadow 0.6s cubic-bezier(.79,.21,.06,.81);
+    border-radius: 50%;
+    border: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-self: center;
+ }
+
+ #active-event button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    scale: 2.5;
+ }
+
+#choose-event {
+    display: none;
+}
+
+.event-buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 800px) {
+    #active-event {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-self: center;
+        width: max-content;
+        max-width: auto;
+        min-width: 18svw;
+        padding-bottom: 0.2rem;
+    }
+
+    #active-event > div {
+        margin: 0rem;
+        display: flex;
+    }
+
+    #choose-event {
+        display: flex;
+    }
+}
+
+
+/* .event-description {
+    text-align: center;
+    background-color: grey;
+    color: white;
+    padding: 5px;
+    width: 100%;
+} */
+
+/* leaderboard */
+
+.scores-container {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
+    max-width: 800px;
+
+  }
+
+  .leaderboard-title {
+      text-align: center;
+      font-size: 1.2rem;
+      padding: 10px;
+  }
+
+
+  .scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .scores-table th {
+    background: #007bff;;
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e9ecef;
+  }
+
+  
+  .scores-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .scores-table th:first-child,
+  .scores-table td:first-child {
+    /* text-align: left; */
+    padding: 12px 12px;
+  }
+
+  .scores-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .scores-table tr:hover {
+    background: #f8f9fa;
+  }
+
+  .points {
+    font-weight: 600;
+    color: #2563eb;
+  }
+
+  .username {
+    color: #1f2937;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 32px;
+    color: #6b7280;
+  }
+
+#leaderboard-popup-content-bigscreen {
+    display: flex;
+    padding: 0px;
+}
+
+@media (max-width: 800px) {
+    .scores-container {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .scores-table td,
+    .scores-table th {
+        padding: 8px;
+    }
+
+    #leaderboard-popup-content-bigscreen {
+        display: none;
+    }
+}
+
+
+.map-style-button {
+    /* Position */
+    position: absolute;
+    top: 8.5svh;
+    right: 18px;
+    z-index: 20;
+  
+    /* Size */
+    width: 0.9rem;
+    height: 0.9rem;
+  
+    /* Style */
+    cursor: pointer;
+    background: transparent;
+    border: none;
+
+  }
+
+.map-style-button svg {
+    width: 0.7rem;
+    height: 0.7rem;
+    scale: 2.5;
+    fill: white;
+    border-radius: 2px;
+}
+
+
+/* floating button */
+.floating-button {
+    /* Position */
+    position: absolute;
+    bottom: 10svh;
+    right: 20px;
+    z-index: 20;
+  
+    /* Size */
+    width: 60px;
+    height: 60px;
+  
+    /* Make it circular */
+    border-radius: 50%;
+  
+    /* Style */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  
+
+  }
+  
+  /* Hover effect */
+  .floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Optional: Active state */
+  .floating-button:active {
+    transform: scale(0.95);
+  }
+
+
+
+#container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    border: 3px solid yellow;
+  }
+
+
+
+
+#static {
+    background-image: url('https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/23.321869,42.697085,13,0/700x400?access_token=pk.eyJ1Ijoicmltb2dhcmRpbm8iLCJhIjoiY2x6ZmYzd2pqMHd2MjJqczhoMHppdDZ0dCJ9.NRh5P25lPMZApQalzUF4IQ');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+
+
+
+.mapboxgl-popup {
+    max-width: 200px;
+}
+
+.video-player {
+    max-width: 600px;
+    margin: auto;
+}

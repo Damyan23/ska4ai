@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Ska4ai{% endblock %}
+
+
+{% block content %}
+
+<div class="center-container flex-column create-challenge-container" >
+    {% if errors %}
+        {% for error in errors %}
+            <p class="error" style="color: red; weight: bold; font-size: 20px;">{{error}}</p>
+        {% endfor %}
+    {% else %}
+        <div class="small-title-container">
+            {% translate "Creating for " %}{{ event_name }}
+        </div>
+        <form id="file-upload-form"
+         hx-encoding='multipart/form-data'
+         hx-post="{% url 'challenges:create_challenge' event_id=event_id %}"
+         hx-target="body"
+         hx-swap="innerHTML"
+         enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+
+            <div class="map-label">
+                {% translate "Select the spot where the challenge is:" %}
+                <div id="map"></div>
+            </div>
+
+            <input class="blue-button" type="submit" value="Create!"/>
+            <div id="progress-container" style="display: none;">
+                {% translate "Uploading..." %}
+                <progress id='progress' value='0' max='100'></progress>
+            </div>
+        </form>
+    
+        <!-- Hidden iframe for form submission -->
+        <iframe id="upload-target" name="upload-target" style="display: none;"></iframe>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+{% block css %}
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
+
+<style>
+
+    #map {
+        display: inline-block;
+        width: 100%;
+        height: 93%;
+        min-height: 20vh;
+        flex-grow: 1;
+        flex-shrink: 0;
+        margin-top: 0.5rem;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        overflow: hidden; /* Clip content inside the border-radius */
+        box-sizing: border-box;
+        transform: translate3d(0, 0, 0); /* GPU acceleration */
+    }
+
+    .map-label {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        padding-bottom: 1rem;
+        flex-grow: 1;
+        overflow: hidden; /* Prevent any content from overflowing */
+    }
+
+    #progress-container {
+        position: fixed;
+        top: 50vh;
+        left: 10vw;
+        margin-top: 0.5rem;
+        width: 80%;
+        padding: 0.5rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        z-index: 1000;
+    }
+    
+    #progress {
+        width: 100%;
+        text-align: center;
+        line-height: 20px;
+        color: white;
+        transition: width 0.3s;
+    }
+
+    #file-upload-form {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.2rem;
+        height: 100%;
+        max-width: 900px;
+        padding: 0.5rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+    }
+
+        #file-upload-form {
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="file"], textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            color: #555;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f9f9f9;
+            transition: border 0.2s;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+    }
+</style>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<!-- Page specific js can go here -->
+<script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+
+
+<script>
+    mapboxgl.accessToken = '{{ mapbox_api_key }}';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/rimogardino/cmefkkcmb00ip01sdgpo26anq',
+        center: [23.321869, 42.697085], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        //an array of numbers in [west, south, east, north] order.
+        maxBounds: [23.2, 42.6, 23.45, 42.75],
+        zoom: 12 // starting zoom
+    });
+
+    //Remove exess landmark and icons
+    map.on('style.load', () => {
+        map.setConfigProperty('basemap', 'showPointOfInterestLabels', false);
+    });
+
+    // Show user location on map button
+    map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserHeading: true
+    }));
+
+    // Show ruler with scale on bottom left
+    const scale = new mapboxgl.ScaleControl({
+        maxWidth: 100,
+        unit: 'metric'
+    });
+    map.addControl(scale);
+
+
+
+    // Select a point on the map
+    const marker = new mapboxgl.Marker({
+        //color: "#FFFFFF",
+        draggable: false
+    }).setLngLat([23.321869, 42.697085])
+    .addTo(map);
+    document.getElementById('id_longitude').value = 23.321869;
+    document.getElementById('id_latitude').value = 42.697085;
+
+
+    map.on("click", (e) => {
+        const coordinates = e.lngLat;
+        console.log("map is clicked", coordinates);
+        marker.setLngLat(coordinates);
+        document.getElementById('id_longitude').value = coordinates["lng"];
+        document.getElementById('id_latitude').value = coordinates["lat"];
+    });
+
+
+    // Background upload and progress bar v3
+    htmx.on('#file-upload-form', 'htmx:xhr:progress', function(evt) {
+        htmx.find('#progress-container').style.display = 'block';
+        overlay.style.display = "block";
+        htmx.find('#progress').setAttribute('value', evt.detail.loaded/evt.detail.total * 100);
+    });
+
+    {% comment %} // Background upload and progress bar v2
+    const form = document.getElementById("file-upload-form");
+    const fileInput = document.getElementById("id_files");
+    const progressContainer = document.getElementById("progress-container");
+    const progressBar = document.getElementById("progress-bar");
+    const overlay = document.getElementById("overlay");
+    overlay.onclick = null;
+
+    let currentXHR = null;
+
+    // Automatically start upload on file select
+    fileInput.addEventListener("change", function () {
+        const files = fileInput.files;
+        if (!files.length) return;
+
+        // Cancel previous upload if still ongoing
+        if (currentXHR && currentXHR.readyState !== 4) {
+            currentXHR.abort();
+        }
+
+        // Reset state
+        progressBar.style.width = "0%";
+
+        const formData = new FormData();
+        for (const file of files) {
+            formData.append("files", file); // adjust key as needed
+        }
+
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        currentXHR = new XMLHttpRequest();
+        currentXHR.open("POST", form.action, true); // Your temporary upload endpoint
+        currentXHR.setRequestHeader("X-CSRFToken", csrfToken);
+
+        currentXHR.upload.addEventListener("progress", function (event) {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                progressBar.style.width = percentComplete + "%";
+            }
+        });
+
+        currentXHR.onload = function () {
+            if (currentXHR.status === 200) {
+                // Expect response to be a JSON array of uploaded file names/IDs
+                console.log("Upload successful")
+            } else {
+                alert("Upload failed.");
+            }
+        };
+
+        currentXHR.onerror = function () {
+            alert("An error occurred during upload.");
+        };
+
+        currentXHR.send(formData);
+    });
+
+    // On form submit
+    form.addEventListener("submit", function (event) {
+        if (currentXHR && currentXHR.readyState !== 4) {
+            event.preventDefault();
+            progressContainer.style.display = "block";
+            overlay.style.display = "block";
+        }
+    }); {% endcomment %}
+
+</script>
+    
+    
+
+{% endblock %}   

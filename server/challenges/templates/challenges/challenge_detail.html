@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Ska4ai{% endblock %}
+
+{% block content %}
+<div class="container center-container" >
+    <div class="">
+        {% include './challenge_simple_info.html' with challenge=challenge visuals=visuals likes_count=likes_count %}
+
+
+        {% if user.id == challenge.user.id %}
+            <div class="challenge-edit-delete-container" >
+                <button class="blue-button" type="submit" 
+                    onclick="location.href='{% url 'challenges:edit_challenge' challenge_type=challenge.challenge_type challenge_id=challenge.id %}'">
+                    {% translate "Edit" %}
+                </button>
+
+                <button class="red-button" type="submit" 
+                    onclick="confirmDelete()">
+                    {% translate "Delete" %}
+                </button>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="submissions-container" >
+        {% if submissions %}
+            <h3>{% translate "Submissions:" %}</h3>
+            {% for submission in submissions %}
+                <div class="submission-container">
+                    {% include 'submissions/submission_simple_info.html' with submission=submission %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>{% translate "No submissions are available." %}</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+
+    function confirmDelete() {
+        let strconfirm = confirm('{% translate "Are you sure you want to delete the challenge?" %}');
+        if (strconfirm == true) {
+            window.location.href = "{% url 'challenges:delete_challenge' challenge_type=challenge.challenge_type challenge_id=challenge.id %}";
+        }
+    }
+
+
+</script>
+{% endblock %}

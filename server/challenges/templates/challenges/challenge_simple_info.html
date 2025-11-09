@@ -1,0 +1,195 @@
+{% load i18n %}
+{% load l10n %}
+
+<div class="popup-container submission-container">
+    {% if challenge.name %}
+        <div class="description challenge-name">
+            <a href="{% url 'challenges:challenge_detail' challenge_type=challenge.challenge_type challenge_id=challenge.id %}">{{ challenge.name }}</a>
+        </div>
+    {% endif %}
+    <div class="media-scroll-container">
+        {% if visuals|length > 1 %}
+          <button class="scroll-button scroll-left" onclick="scrollMedia('{{challenge.challenge_type}}-{{challenge.id}}', 'left')">←</button>
+          <button class="scroll-button scroll-right" onclick="scrollMedia('{{challenge.challenge_type}}-{{challenge.id}}', 'right')">→</button>
+        {% endif %}
+        <div id="{{challenge.challenge_type}}-{{challenge.id}}" class="media-container">
+            {% for visual in visuals %}
+            <div class="media-wrapper">
+                    {% if visual.file_type|slice:":5" == "video" %}
+                        <div class="video-wrapper">
+                        <video id="challenge-visual-{{challenge.id}}"
+                            class="video-player"
+                            name='challenge_video'
+                            preload="metadata"
+                            playsinline
+                            webkit-playsinline
+                            muted
+                            loop
+                            data-poster="{{ visual.processed_url|slice:':-4' }}.jpg"
+                            onclick="playPause(this)">
+                            <source src="{{ visual.processed_url }}" type="video/mp4">
+                            <source src="{{ visual.file.url }}" type="video/mp4">
+                        </video>
+                        <div class="play-overlay"></div>
+                        </div>
+                    {% else %}
+                        <img class="submission-image"
+                             src="{{ visual.processed_url }}"
+                             alt="{{ visual.processed_url }}"
+                             onerror="this.onerror=null;this.src='{{ visual.file.url }}';"
+                             />
+                    {% endif %}
+                
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+
+    <div class="user-info">
+        <div class="avatar">{{ challenge.user.username|slice:":1"|upper }}</div>
+        <div>
+            <div>{{ challenge.user }}</div>
+            <div style="color: #666; font-size: 0.9em;">{{ challenge.event.name }}</div>
+        </div>
+    </div>
+
+    <div class="description">
+        <a href="{% url 'challenges:challenge_detail' challenge_type=challenge.challenge_type challenge_id=challenge.id %}">{{ challenge.description }}</a>
+    </div>
+
+    {% if not form %}
+        {% comment %} Like button {% endcomment %}
+        <div class="action-bar" onClick="cleanContentChallengeDiv('async-content-{{challenge.id}}')">
+            <button class="action-bar-button like-button"
+                {% if user.is_authenticated and challenge.event.state == 'AC' %} 
+                    hx-post="{% url 'userinteraction:like_challenge' challenge_id=challenge.id challenge_type=challenge.challenge_type %}"
+                    hx-target="#likes-points-counter-{{challenge.id}}"
+                    hx-swap="innerHTML"
+                    onClick="likeSvg(event, 'heart-{{challenge.id}}')"
+                {% endif %}
+            >
+            <svg viewBox="0 0 24 24" id="heart-{{challenge.id}}" class="icon heart-icon {% if liked_by_user %}liked-challenge{% endif %}" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <div class="likes-points-counter" id="likes-points-counter-{{challenge.id}}">
+                <span>{{ likes_count }} {% translate "Likes" %}</span>
+                {% if challenge.points %} 
+                    <span>{{ challenge.points }} {% translate "Points" %}</span>
+                {% endif %}
+            </div>
+            </button>
+            
+            {% comment %} Comments button {% endcomment %}
+            <button class="action-bar-button comments-button"
+                {% if user.is_authenticated %} 
+                    hx-get="{% url 'userinteraction:get_all_comments' challenge_type=challenge.challenge_type challenge_id=challenge.id  %}"
+                    hx-target="#async-content-{{challenge.id}}"
+                    hx-swap="innerHTML "
+                {% endif %}
+            >
+            <svg viewBox="0 0 24 24" class="icon comments-icon" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zM4 4h16v12.17L18.83 14H4V4zm6 7h2v2h-2zm-4 0h2v2H6zm8 0h2v2h-2z"/>
+            </svg>
+            </button>
+            
+            {% comment %} Submission button {% endcomment %}
+            {% if challenge.points %}
+                <button class="action-bar-button submission-button"
+                    {% if user.is_authenticated and user.id != challenge.user.id and challenge.event.state == 'AC' %} 
+                        hx-get="{% url 'submissions:create_submission' challenge_type=challenge.challenge_type challenge_id=challenge.id  %}"
+                        hx-target="#async-content-{{challenge.id}}"
+                        hx-swap="innerHTML "
+                    {% endif %}
+                >
+                    {% include "images/done-ring-round-svgrepo-com.svg" %}
+                </button>
+            {% endif %}
+
+            {% comment %} Share button that just copies the link {% endcomment %}
+            <button class="share-button"
+                onclick="copyLink('{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'challenges:challenge_detail' challenge_type=challenge.challenge_type challenge_id=challenge.id %}')"
+            >
+                {% include "images/icons8-share.svg" %}
+            </button>
+
+            {% comment %} Maps redirect button {% endcomment %}
+            <button class="action-bar-button google-maps-button"
+                {% comment %} The first option seems to work the best, opens googlemaps in both browser and app from firefox, but isn't perfect from chrome and safari {% endcomment %}
+                onclick="window.open('https://www.google.com/maps/search/?api=1&query={{challenge.latitude|unlocalize}},{{challenge.longitude|unlocalize}}','_blank')"
+            >
+                {% include "images/google-maps-icon.svg" %}
+            </button>
+
+        </div>
+    {% endif %}
+
+    <div class="async-content-challenge-div" id="async-content-{{challenge.id}}">
+
+    </div>
+</div>
+
+<script>
+var isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+function cleanContentChallengeDiv(asyncContentDivId) {
+    document.getElementById(asyncContentDivId).innerHTML = '';
+}
+
+function likeSvg(event, heartId) {
+    // If you are clicking too fast it can mess up, that's why the timeout is here
+    setTimeout(() => document.getElementById(heartId).classList.toggle('liked-challenge'), 75);
+    event.stopPropagation(); // Stop the click from propagating
+}
+
+// Load thumbnails on IOS
+// ugly hack to make it work without generating thumbnails...
+{% comment %} function loadIOSthubmnails(videoId) {
+    document.querySelectorAll("video").forEach(video => {
+        video.pause();
+    });
+}
+
+loadIOSthubmnails('challenge-visual-' + {{challenge.id}}); {% endcomment %}
+
+
+
+function copyLink(url) {
+  if (navigator.clipboard && window.isSecureContext) {
+    // Modern clipboard API
+    navigator.clipboard.writeText(url).then(() => {
+        if (!isMobile) {
+            alert('Link copied!');
+        }
+    }).catch(
+    (err) => {
+        fallbackCopyText(url);
+    });
+  } else {
+    // Fallback for mobile and older browsers
+    fallbackCopyText(url);
+  }
+}
+
+function fallbackCopyText(text) {
+  const tempInput = document.createElement('input');
+  tempInput.value = text;
+  document.body.appendChild(tempInput);
+  tempInput.style.position = 'absolute';
+  tempInput.style.left = '-9999px';
+  tempInput.setAttribute('readonly', '');
+  tempInput.select();
+  tempInput.setSelectionRange(0, 99999); // iOS
+
+  try {
+    document.execCommand('copy');
+    if (!isMobile) {
+        alert('Link copied!');
+    }
+  } catch (err) {
+    alert('Failed to copy link.');
+  }
+
+  document.body.removeChild(tempInput);
+}
+
+</script>

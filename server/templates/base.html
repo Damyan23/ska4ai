@@ -1,0 +1,157 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Ska4ai{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static "ska4ai/css/base.css" %}?{{ timestamp }}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.5/dist/htmx.js" integrity="sha384-5DNWP7/6VfmFjDrEgZ0MwJiuIz0/juUdZwgMAqxCaHBd/BH8MF4yWxDv+mo/o9CG" crossorigin="anonymous"></script>
+   
+ 
+    {% comment %} <!-- Custom CSS (if any) -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+    {% block css %}
+    <!-- Page specific css can go here -->
+    {% endblock %}
+</head>
+
+<body  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <!-- Navigation bar -->
+    <header class="header">
+        <nav>
+            <a href="{% url 'index' %}" class="text-logo"><span class="">ska</span><span class="four-logo">4</span><span class="">ai</span></a>
+            <ul class="list">
+                {% comment %} # &#160;&#160; makes the two links separate on IOS... {% endcomment %}
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'accounts:myprofile' %}">{% translate "Hi" %} {{ user.username }}!</a>&#160;&#160;</li>
+                    <li>
+                        <form action="{% url 'account_logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="loginout-btn" type="submit">{% translate "Logout" %}</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li>
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <button class="loginout-btn" type="submit">{% translate "Login" %}</button>
+                        </form>
+                    </li>
+                    {% comment %} <li><a href="{% url 'accounts:signup' %}">Signup</a></li> {% endcomment %}
+                {% endif %}
+                <button type="button"
+                        class="icon-button"
+                        type="submit"
+                        {% if user.is_authenticated %}
+                            onclick="openNotifications()"
+                            hx-get="{% url 'userinteraction:get_notiications_count' %}"
+                            hx-trigger="intersect once click"
+                            hx-target="#notiications_count"
+                            hx-indicator="#loading-indicator"
+                            hx-swap="innerHTML"
+                        {% endif %}
+                        >
+                    <span class="material-icons">notifications</span>
+                    <span id="notiications_count" class="icon-button__badge">0</span>
+                  </button>
+
+                <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    {% get_current_language as CURRENT_LANGUAGE %}
+                    <input name="next" type="hidden" value="{{ request.path }}">
+                    <input name="language" type="hidden" value="{% if CURRENT_LANGUAGE == 'en' %}bg{% else %}en{% endif %}">
+                    <button class="language-button" type="submit">
+                        {% if CURRENT_LANGUAGE == 'en' %}
+                            {% include "images/bg.svg" %}
+                        {% else %}
+                            {% include "images/gb.svg" %}
+                        {% endif %}
+                    </button>
+                </form>
+                  
+                <div class="circle" onclick="location.href='{% url 'about' %}'">{% include "images/icons8-info.svg" %}</div>
+            </ul>
+          </nav> 
+    </header>
+
+    <main role="main" class=""  >
+        <div id="loading-indicator" style="display: none;">{% translate "Loading..." %}</div>
+        <div id="overlay" class="overlay" onclick="closePopup()"></div>
+        <div id="notification-popup" class="popup">
+            <button class="close-button stylish-button" onclick="closePopup()"><div>{% include "images/close-square-svgrepo-com.svg" %}</div></button>
+            <div id="notification-popup-content"
+                    class="center-container"
+                    hx-trigger="intersect once click delay:0.1s"
+                    hx-get="{% url 'userinteraction:get_notifications' %}"
+                    hx-swap="innerHTML"
+            >
+                ...
+            </div>
+        </div>
+        {% block content %}
+        <!-- Default content can go here -->
+        {% endblock %}
+
+    </main>
+
+    {% comment %} <footer class="text-center mt-4">
+        <p>&copy; {{ current_year }} My Django Project</p>
+    </footer> {% endcomment %}
+
+
+</body>
+
+{% block extra_js %}
+<!-- Page specific js can go here -->
+{% endblock %}   
+<script>
+
+    function openGoogleMaps(lat, lng) {
+        // Mobile device detection
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            window.open(`https://www.google.com/maps?api=1&q=${lat},${lng}`, '_blank');
+            // Attempt app link first
+            //window.location.href = `comgooglemaps://?api=1&q=${lat},${lng}&center=${lat},${lng}&zoom=15`;
+            // window.open('https://www.google.com/maps/search/?api=1&query={{challenge.latitude}},{{challenge.longitude}}','_blank')
+            // Fallback to web maps
+            {% comment %} setTimeout(() => {
+                window.open(`https://www.google.com/maps?api=1&q=${lat},${lng}`, '_blank');
+            }, 500); {% endcomment %}
+        } else {
+            // Desktop fallback
+            alert("Desktop fallback!");
+            window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+        }
+    }
+
+    function openNotifications() {
+        document.getElementById("notification-popup").style.display = 'flex';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+
+    // Function to close popup
+    function closePopup() {
+        const popups = document.querySelectorAll(".popup");
+        popups.forEach((popup) => {
+            popup.style.display = 'none';       
+        });
+        document.querySelectorAll(".popup-html-content").forEach((popup_content) => {
+            popup_content.innerHTML = '';        
+        });
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+</script>
+
+<script type="text/javascript"  src="{% static 'ska4ai/js/base.js' %}"></script>
+</html>

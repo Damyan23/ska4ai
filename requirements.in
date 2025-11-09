@@ -1,8 +1,0 @@
-django
-ffmpeg-python
-pillow
-psutil
-django-allauth
-requests
-PyJWT
-cryptography

@@ -1,0 +1,211 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\globalxmlns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\globalxmlns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\platforms\\ios\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\platforms\\ios\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\platforms\\maccatalyst\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\platforms\\maccatalyst\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\platforms\\android\\mainactivity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\platforms\\android\\mainapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\platforms\\ios\\appdelegate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\platforms\\ios\\appdelegate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|c:\\users\\dpeyc\\documents\\ska4ai\\mobile\\mobile\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F915EC64-F42A-4F6D-9DB4-87C28BE5397B}|mobile\\mobile.csproj|solutionrelative:mobile\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\MainPage.xaml.cs",
+              "RelativeDocumentMoniker": "mobile\\MainPage.xaml.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\MainPage.xaml.cs",
+              "RelativeToolTip": "mobile\\MainPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:25:14.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\MainPage.xaml",
+              "RelativeDocumentMoniker": "mobile\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\MainPage.xaml",
+              "RelativeToolTip": "mobile\\MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-09T13:23:32.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\MacCatalyst\\Program.cs",
+              "RelativeDocumentMoniker": "mobile\\Platforms\\MacCatalyst\\Program.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\MacCatalyst\\Program.cs",
+              "RelativeToolTip": "mobile\\Platforms\\MacCatalyst\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:23:58.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\iOS\\Program.cs",
+              "RelativeDocumentMoniker": "mobile\\Platforms\\iOS\\Program.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\iOS\\Program.cs",
+              "RelativeToolTip": "mobile\\Platforms\\iOS\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:19:44.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainActivity.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\Android\\MainActivity.cs",
+              "RelativeDocumentMoniker": "mobile\\Platforms\\Android\\MainActivity.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\Android\\MainActivity.cs",
+              "RelativeToolTip": "mobile\\Platforms\\Android\\MainActivity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:19:35.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GlobalXmlns.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\GlobalXmlns.cs",
+              "RelativeDocumentMoniker": "mobile\\GlobalXmlns.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\GlobalXmlns.cs",
+              "RelativeToolTip": "mobile\\GlobalXmlns.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:18:44.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MainApplication.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\Android\\MainApplication.cs",
+              "RelativeDocumentMoniker": "mobile\\Platforms\\Android\\MainApplication.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\Android\\MainApplication.cs",
+              "RelativeToolTip": "mobile\\Platforms\\Android\\MainApplication.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:19:37.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "mobile\\MauiProgram.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\MauiProgram.cs",
+              "RelativeToolTip": "mobile\\MauiProgram.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:18:31.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AppDelegate.cs",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\iOS\\AppDelegate.cs",
+              "RelativeDocumentMoniker": "mobile\\Platforms\\iOS\\AppDelegate.cs",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\Platforms\\iOS\\AppDelegate.cs",
+              "RelativeToolTip": "mobile\\Platforms\\iOS\\AppDelegate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T13:19:41.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AppShell.xaml",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\AppShell.xaml",
+              "RelativeDocumentMoniker": "mobile\\AppShell.xaml",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\AppShell.xaml",
+              "RelativeToolTip": "mobile\\AppShell.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-09T13:19:12.637Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\App.xaml",
+              "RelativeDocumentMoniker": "mobile\\App.xaml",
+              "ToolTip": "C:\\Users\\dpeyc\\Documents\\ska4ai\\mobile\\mobile\\App.xaml",
+              "RelativeToolTip": "mobile\\App.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-09T13:19:10.105Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

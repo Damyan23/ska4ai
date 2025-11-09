@@ -13,3 +13,25 @@ tmp/
 db.sqlite3
 TODO
 *.mo
+# Python/Django
+server/__pycache__/
+server/**/*.py[cod]
+server/.venv/
+server/.env
+server/db.sqlite3
+server/media/
+server/staticfiles/
+server/.pytest_cache/
+
+# .NET
+mobile/**/bin/
+mobile/**/obj/
+*.user
+*.suo
+
+# Node
+**/node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

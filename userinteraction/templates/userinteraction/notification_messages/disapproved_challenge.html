@@ -1,9 +1,0 @@
-{% load i18n %}
-<div class="notification-item" 
-    hx-post="{% url 'userinteraction:read_notification' notification.id %}"
-    hx-trigger="click"
-    hx-swap="none"
-    data-target-url="{% url 'challenges:challenge_detail' challenge_type=notification.parent.challenge_type challenge_id=notification.parent.id  %}"
->
-    <span class="notification-text">{% blocktranslate with challenge_id=notification.parent.id %}Your challenge {{ challenge_id }} has been disapproved{% endblocktranslate %}</span>
-</div>
